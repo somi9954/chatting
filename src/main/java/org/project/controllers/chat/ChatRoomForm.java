@@ -7,5 +7,6 @@ import lombok.Builder;
 //getter, 생성자 매개변수 , toString, equalsAndHashCode
 public record ChatRoomForm(
         Long roomNo,
-        @NotBlank String roomNm,
+        @NotBlank(message = "채팅방 이름을 입력하세요.")
+        String roomNm,
         int max) { }
