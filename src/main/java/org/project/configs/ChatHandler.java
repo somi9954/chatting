@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class ChatHandler extends TextWebSocketHandler {
 
-    private List<WebSocketSession> sessions = new ArrayList<>();
+    private static List<WebSocketSession> sessions = new ArrayList<>();
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception { //웹소켓에 접속했을때 사용
         sessions.add(session);
@@ -24,6 +24,9 @@ public class ChatHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception { //사용자가 보낸 메세지
         String msg = message.getPayload();
         log.info("message : " + msg);
+        for (WebSocketSession s: sessions) {
+            s.sendMessage(message);
+        }
     }
 
     @Override
