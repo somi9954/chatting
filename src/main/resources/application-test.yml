@@ -1,11 +1,11 @@
 spring:
-  datasource: #데이터 베이스 연결 설정
-    driver-Class-Name: org.h2.Driver
+  datasource: # 데이터 베이스 연결 설정
+    driverClassName: org.h2.Driver
     url: jdbc:h2:mem:test
     username: sa
     password:
 
-  jpa: #JPA 설정
+  jpa: # JPA 설정
     properties:
       hibernate:
         show_sql: true
