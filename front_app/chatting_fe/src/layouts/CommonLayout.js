@@ -6,7 +6,9 @@ const CommonLayout = () => {
     return (
       <>
         <Header />
+        <main>
           <Outlet />
+        </main>
         <Footer />
       </>
     );
