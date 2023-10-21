@@ -4,7 +4,7 @@ import apiRequest from "../lib/apiRequest";
 export const getRooms = () => apiRequest("/rooms");
 
 /** 방 정보 */
-export const getRoom = (roomNo) =>apiRequest(`/room/${roomNo}`);
+export const getRoom = (roomNo) => apiRequest(`/room/${roomNo}`);
 
 /**방등록 */
 export const registerRoom = (form) => apiRequest("/room", "POST", form);
