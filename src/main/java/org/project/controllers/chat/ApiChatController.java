@@ -8,7 +8,7 @@ import org.project.commons.JSONData;
 import org.project.entities.ChatRoom;
 import org.project.models.chat.ChatMessageService;
 import org.project.models.chat.ChatRoomSaveService;
-import org.project.models.chat.ChatRoominfoService;
+import org.project.models.chat.ChatRoomInfoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -23,17 +23,26 @@ import java.util.List;
 public class ApiChatController {
 
     private final ChatRoomSaveService chatRoomSaveService;
-    private final ChatRoominfoService chatRoominfoService;
+    private final ChatRoomInfoService chatRoomInfoService;
     private final ChatMessageService messageService;
 
     @GetMapping("/rooms")
     public ResponseEntity<JSONData<List<ChatRoom>>> rooms() {
-        List<ChatRoom> rooms = chatRoominfoService.getList();
+        List<ChatRoom> rooms = chatRoomInfoService.getList();
         JSONData<List<ChatRoom>> data = new JSONData<>();
         data.setSuccess(true);
         data.setData(rooms);
 
         return ResponseEntity.status(data.getStatus()).body(data);
+    }
+
+    @GetMapping("/room/{roomNo}")
+    public JSONData<ChatRoom> roomInfo(@PathVariable Long roomNo) {
+        ChatRoom room = chatRoomInfoService.get(roomNo);
+        JSONData<ChatRoom> data = new JSONData<>();
+        data.setData(room);
+
+        return data;
     }
 
     @PostMapping("/room")

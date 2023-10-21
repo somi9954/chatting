@@ -17,7 +17,7 @@ public class ChatMessageService {
 
     public void save(ChatMessageForm form) {
         Long roomNo = form.roomNo();
-        ChatRoom room = roomRepository.findById(roomNo).orElseThrow(RoomnotFoundException::new);
+        ChatRoom room = roomRepository.findById(roomNo).orElseThrow(RoomNotFoundException::new);
 
         ChatHistory history = ChatHistory.builder()
                 .nickNm(form.nickNm())
