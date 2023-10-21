@@ -1,17 +1,28 @@
 import { useEffect,useState } from "react";
+import { Link } from "react-router-dom";
+import styled from 'styled-components';
 import { getRooms } from "../api/chatting";
 import ErrorMessage from "../components/commons/ErrorMessage";
+
+const RoomBox =styled.li`
+  box-shadow: 2px 2px 5px #212121;
+  padding: 10px 20px;
+  border-radius: 5px;
+  a{
+    display: flex;
+    justify-content: space-between;
+  }
+`;
 
 const Rooms = () => {
     const [rooms, setRooms] = useState([]);
     const [message, setMessage] = useState('');
     const[loading, setLoading] = useState(true);
-
+    
     useEffect(() =>{
       getRooms()
-         .then((data) => {
-          console.log(data);
-          setRooms(data);
+         .then((res) => {
+          setRooms(res.data);
           setLoading(false);
          })
          .catch((err)=> {
@@ -23,8 +34,17 @@ const Rooms = () => {
 
   let lis = null;
   if(rooms && rooms.length > 0 ){
-    lis = rooms.map(r => (<li key={r.roomNo}>{r.roomNm}</li>));
-  }
+    lis = rooms.map(r => {
+      const link = `/room/${r.roomNo}`;
+      return (
+    <RoomBox key={r.roomNo}>
+        <Link to={link}>
+          <div className='left'>{r.roomNm}</div>
+          <div className='right'>최대인원수 : {r.max}명</div>
+        </Link>
+      </RoomBox>)
+      });
+    }
 
   return (
     <>
