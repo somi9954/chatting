@@ -33,6 +33,7 @@ public class ChatHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception { //웹소켓에 접속을 종료했을때 사용
         log.info(session.toString() + " 해제");
         sessions.remove(session);
-
     }
+
+
 }
