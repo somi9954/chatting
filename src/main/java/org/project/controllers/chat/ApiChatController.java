@@ -1,14 +1,13 @@
 package org.project.controllers.chat;
 
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.project.commons.BadRequestException;
 import org.project.commons.JSONData;
 import org.project.entities.ChatRoom;
 import org.project.models.chat.ChatMessageService;
-import org.project.models.chat.ChatRoomSaveService;
 import org.project.models.chat.ChatRoomInfoService;
+import org.project.models.chat.ChatRoomSaveService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -46,7 +45,7 @@ public class ApiChatController {
     }
 
     @PostMapping("/room")
-    public ResponseEntity<JSONData<ChatRoom>> registerRoom(@Valid @RequestBody ChatRoomForm form, Errors errors){
+    public ResponseEntity<JSONData<ChatRoom>> registerRoom(@Valid @RequestBody ChatRoomForm form, Errors errors) {
 
         if (errors.hasErrors()) {
             String message = errors.getAllErrors()
@@ -56,7 +55,7 @@ public class ApiChatController {
         }
 
         ChatRoom room = chatRoomSaveService.save(form);
-        HttpStatus status =HttpStatus.CREATED;
+        HttpStatus status = HttpStatus.CREATED;
 
         JSONData<ChatRoom> data = new JSONData<>();
         data.setSuccess(true);
@@ -76,8 +75,9 @@ public class ApiChatController {
             throw new BadRequestException(message);
         }
 
+
         messageService.save(form);
-        HttpStatus status  = HttpStatus.CREATED;
+        HttpStatus status = HttpStatus.CREATED;
         JSONData<Object> data = new JSONData<>();
         data.setSuccess(true);
         data.setStatus(status);
