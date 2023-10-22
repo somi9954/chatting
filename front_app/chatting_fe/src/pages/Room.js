@@ -7,6 +7,7 @@ import { getRoom, registerMessage } from "../api/chatting";
 let webSocket;
 const Room = () => {
   const inputEl = useRef();
+  const buttonEl =useRef();
 
   const initialInfo = {
       roomNo : '',
@@ -55,7 +56,10 @@ const Room = () => {
   const handleChange = useCallback((e) => {
     const params = {roomNo, nickNm : roomInfo.nickNm, message: e.target.value};
     setChatData(params);
-    }, [roomInfo]);
+    if (e.keyCode === 13) { //엔터키 클릭시 
+      buttonEl.current.click();
+    }
+}, [roomInfo]);
 
   const handleClick = useCallback(() => {
     if (!webSocket) return;
@@ -74,8 +78,8 @@ const Room = () => {
     <>
       {roomInfo && <Title>{roomInfo.roomNm}({roomInfo.max ? `최대${roomInfo.max}명`: '무제한'})</Title>}
       <ul>{lis}</ul>
-      <input type="text" onChange={handleChange} ref={inputEl} />
-      <button type="button" onClick={handleClick}>전송</button>
+      <input type="text" onKeyUp={handleChange} ref={inputEl} />
+      <button type="button" onClick={handleClick} ref={buttonEl}>전송</button>
     </>
   );
 };
