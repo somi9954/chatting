@@ -24,7 +24,7 @@ public class ChatHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception { //사용자가 보낸 메세지
         String msg = message.getPayload();
         log.info("message : " + msg);
-        for (WebSocketSession s: sessions) {
+        for (WebSocketSession s : sessions) {
             s.sendMessage(message);
         }
     }
