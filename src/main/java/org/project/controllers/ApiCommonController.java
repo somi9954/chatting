@@ -14,7 +14,7 @@ public class ApiCommonController {
 
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (e instanceof CommonException) {
-            CommonException commonException  = (CommonException)e;
+            CommonException commonException = (CommonException)e;
             status = commonException.getStatus();
         }
 
