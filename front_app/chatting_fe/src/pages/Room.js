@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Title from "../components/commons/Title";
-import NickNmForm from "../components/commons/chatting/NicckNmForm";
+import NickNmForm from "../components/commons/chatting/NickNmForm";
 import { getRoom, registerMessage } from "../api/chatting";
 
 let webSocket;
@@ -23,7 +23,7 @@ const Room = () => {
   const { roomNo } = useParams();
   const [ roomInfo, setRoomInfo ] = useState(initialInfo);
   const [ chatData, setChatData] = useState(initialChatData);
-  const [ messages, setMEssages] = useState([]);
+  const [ messages, setMessages] = useState([]);
 
   useEffect (() => {
     webSocket = new WebSocket(process.env.REACT_APP_WS_URL);
@@ -45,24 +45,24 @@ const Room = () => {
       webSocket.onmessage = (message) => { //데이터 수신
         const data = JSON.parse(message.data);
           if (data.roomNo === roomNo) { //동일한 채팅 방에서만 메세지 출력
-          setMEssages(messages.concat(data));
+            setMessages(messages.concat(data));
           }
       };
     }
   }, [webSocket,messages]);
 
 
-    const handleChange = useCallback((e) => {
-      const params = {roomNo, nickNm: roomInfo.nickNm,  message: e.target.value };
+  const handleChange = useCallback((e) => {
+    const params = {roomNo, nickNm : roomInfo.nickNm, message: e.target.value};
     setChatData(params);
-    registerMessage(params); //채팅 기록 서버 DB에 기록
-  }, [roomInfo]);
+    }, [roomInfo]);
 
   const handleClick = useCallback(() => {
     if (!webSocket) return;
     webSocket.send(JSON.stringify(chatData));
     inputEl.current.value= "";
     inputEl.current.focus();
+    registerMessage(chatData); //채팅 기록 서버 DB에 기록
   }, [chatData]);
 
   if (roomInfo && !roomInfo.nickNm) {
